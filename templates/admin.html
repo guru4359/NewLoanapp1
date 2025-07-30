@@ -1,28 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>Admin Panel</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <style>
+    textarea {
+      width: 100%;
+      height: 400px;
+      font-family: monospace;
+    }
+    .save-status {
+      color: green;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <h2>🛠 Admin Configuration</h2>
+    <h2>🛠 Edit Bank Configurations</h2>
+    <p>You can copy-paste new JSON config or modify below:</p>
 
-    {% for bank_id, bank in banks.items() %}
-      <div class="admin-block">
-        <h3 style="color: {{ bank.theme_color }}">{{ bank.name }}</h3>
-        <p><strong>Address:</strong> {{ bank.address }}</p>
-        <p><strong>Loan Types:</strong></p>
-        <ul>
-          {% for loan in bank.loan_types %}
-            <li>{{ loan.type }} – ₹{{ loan.min_amount }} to ₹{{ loan.max_amount }} @ {{ loan.interest_rate }}%</li>
-          {% endfor %}
-        </ul>
-        <p><strong>Logo:</strong> <img src="{{ bank.logo }}" height="40"></p>
-        <hr>
-      </div>
-    {% endfor %}
+    <form id="adminForm">
+      <textarea id="jsonInput">{{ banks | tojson(indent=2) }}</textarea>
+      <button type="submit">💾 Save Configuration</button>
+    </form>
+
+    <p id="status" class="save-status"></p>
   </div>
+
+  <script>
+    const form = document.getElementById('adminForm');
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const jsonData = document.getElementById('jsonInput').value;
+
+      try {
+        const res = await fetch('/admin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: jsonData
+        });
+
+        const result = await res.json();
+        document.getElementById('status').innerText = result.message;
+      } catch (err) {
+        alert("Invalid JSON or server error.");
+      }
+    });
+  </script>
 </body>
 </html>
