@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import os, json
 from werkzeug.utils import secure_filename
 
@@ -9,9 +9,13 @@ UPLOAD_FOLDER = "uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Load bank configurations
-with open("config/banks.json", "r", encoding="utf-8") as f:
-    BANKS = json.load(f)
+BANK_CONFIG_FILE = "config/banks.json"
+
+def load_banks():
+    with open(BANK_CONFIG_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+BANKS = load_banks()
 
 @app.route("/")
 def index():
@@ -43,14 +47,25 @@ def preview(bank_id):
     bank = BANKS.get(bank_id)
 
     if request.method == "POST":
-        # Here you'd typically store to DB or send notifications
+        # In real use case: store to DB, send SMS/email, etc.
         return render_template("success.html", bank=bank, data=data)
 
     return render_template("preview.html", bank=bank, data=data)
 
-@app.route("/admin")
+@app.route("/admin", methods=["GET", "POST"])
 def admin():
+    global BANKS
+
+    if request.method == "POST":
+        new_config = request.get_json()
+        with open(BANK_CONFIG_FILE, "w", encoding="utf-8") as f:
+            json.dump(new_config, f, indent=2, ensure_ascii=False)
+        BANKS = new_config
+        return jsonify({"message": "Configuration saved successfully"})
+
     return render_template("admin.html", banks=BANKS)
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
+   
