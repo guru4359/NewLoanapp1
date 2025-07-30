@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2>🛠 Admin Configuration</h2>
+
+    {% for bank_id, bank in banks.items() %}
+      <div class="admin-block">
+        <h3 style="color: {{ bank.theme_color }}">{{ bank.name }}</h3>
+        <p><strong>Address:</strong> {{ bank.address }}</p>
+        <p><strong>Loan Types:</strong></p>
+        <ul>
+          {% for loan in bank.loan_types %}
+            <li>{{ loan.type }} – ₹{{ loan.min_amount }} to ₹{{ loan.max_amount }} @ {{ loan.interest_rate }}%</li>
+          {% endfor %}
+        </ul>
+        <p><strong>Logo:</strong> <img src="{{ bank.logo }}" height="40"></p>
+        <hr>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>
