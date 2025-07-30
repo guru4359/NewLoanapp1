@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Apply - {{ bank.name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2 style="color: {{ bank.theme_color }}">{{ bank.name }} – Loan Application</h2>
+    <form method="post" enctype="multipart/form-data">
+      <label>Full Name:</label>
+      <input type="text" name="name" required>
+
+      <label>Email:</label>
+      <input type="email" name="email" required>
+
+      <label>Loan Type:</label>
+      <select name="loan_type" required>
+        {% for loan in bank.loan_types %}
+          <option value="{{ loan.type }}">{{ loan.type }}</option>
+        {% endfor %}
+      </select>
+
+      <label>Loan Amount:</label>
+      <input type="number" name="amount" required>
+
+      <label>Upload KYC Document:</label>
+      <input type="file" name="kyc_doc" required>
+
+      <button type="submit">Preview Application</button>
+    </form>
+  </div>
+</body>
+</html>
