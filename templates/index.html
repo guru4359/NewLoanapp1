@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select Your Bank</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Select Your Bank</h1>
+    <ul class="bank-list">
+      {% for bank_id, bank in banks.items() %}
+        <li style="border-left: 5px solid {{ bank.theme_color }}">
+          <img src="{{ bank.logo }}" alt="{{ bank.name }}" height="50">
+          <h3>{{ bank.name }}</h3>
+          <p>{{ bank.address }}</p>
+          <a href="{{ url_for('loan', bank_id=bank_id) }}">Apply for Loan</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>
