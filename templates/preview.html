@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Preview Your Application</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2 style="color: {{ bank.theme_color }}">{{ bank.name }} – Preview</h2>
+
+    <p><strong>Name:</strong> {{ data.name }}</p>
+    <p><strong>Email:</strong> {{ data.email }}</p>
+    <p><strong>Loan Type:</strong> {{ data.loan_type }}</p>
+    <p><strong>Amount:</strong> ₹{{ data.amount }}</p>
+    {% if data.uploaded_file %}
+      <p><strong>KYC Document:</strong> {{ data.uploaded_file }}</p>
+    {% endif %}
+
+    <form method="post">
+      <button type="submit">Confirm & Submit</button>
+      <a href="{{ url_for('loan', bank_id=bank.name | lower) }}">Go Back</a>
+    </form>
+  </div>
+</body>
+</html>
