@@ -1,0 +1,39 @@
+{
+  "vaidyanath": {
+    "name": "Vaidyanath Bank",
+    "address": "Beed, Maharashtra, India",
+    "logo": "/static/img/vaidyanath_logo.png",
+    "theme_color": "#003366",
+    "loan_types": [
+      {
+        "type": "Personal Loan",
+        "min_amount": 10000,
+        "max_amount": 200000,
+        "interest_rate": 12.5,
+        "term_months": [12, 24, 36]
+      },
+      {
+        "type": "Agri Loan",
+        "min_amount": 5000,
+        "max_amount": 150000,
+        "interest_rate": 8.5,
+        "term_months": [6, 12, 18]
+      }
+    ]
+  },
+  "sahyadri": {
+    "name": "Sahyadri Co-op Bank",
+    "address": "Kolhapur, Maharashtra",
+    "logo": "/static/img/sahyadri_logo.png",
+    "theme_color": "#228B22",
+    "loan_types": [
+      {
+        "type": "Education Loan",
+        "min_amount": 20000,
+        "max_amount": 300000,
+        "interest_rate": 10.0,
+        "term_months": [12, 24, 48]
+      }
+    ]
+  }
+}
